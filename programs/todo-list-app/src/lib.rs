@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("<PLACE YOUR ADDRESS HERE>");
+declare_id!("Cg...");
 
 #[program]
 pub mod todo_list_app {
@@ -21,19 +21,19 @@ pub mod todo_list_app {
         task.updated_at = clock.unix_timestamp;
         task.text = text;
         Ok(())
-
     }
 
+    
     pub fn updating_task(ctx: Context<UpdatingTask>, is_done: bool) -> Result<()> {
+        // First retrieves the task account and author account from the context.
         let task = &mut ctx.accounts.task;
         let author = &ctx.accounts.author; // The `author` account
-        let clock = Clock::get().unwrap(); // Getting the current timestamp
+        let clock = Clock::get().unwrap(); // Getting the current timestamp using Solana’s Clock API
         
         task.author = *author.key;
         task.is_done = is_done;
         task.updated_at = clock.unix_timestamp;
-        Ok(())
-       
+        Ok(())     
     }
 
     pub fn deleting_task(ctx: Context<DeletingTask>) -> Result<()> {
@@ -44,13 +44,8 @@ pub mod todo_list_app {
         task.author = *author.key;
         task.is_done = true;
         task.updated_at = clock.unix_timestamp;
-        Ok(())
-       
+        Ok(())     
     }
-
-
-
-
 }
 
 #[derive(Accounts)]
